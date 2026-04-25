@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="見学ノート">
 <title>保育園 見学ノート</title>
 <style>
@@ -12,16 +11,28 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{--ink:#2a1f14;--ink2:#5a4a3a;--ink3:#8a7a6a;--paper:#faf6f0;--paper2:#f3ede3;--paper3:#e8dfd2;--accent:#c0624a;--a2:#7a9e7e;--a3:#d4a853;--border:rgba(90,74,58,0.2);--sh:0 2px 12px rgba(42,31,20,0.08);}
 body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--paper);color:var(--ink);background-image:repeating-linear-gradient(0deg,transparent,transparent 27px,rgba(90,74,58,0.04) 28px);padding-bottom:env(safe-area-inset-bottom);}
+
+/* ── ログイン画面 ── */
+.login-screen{position:fixed;inset:0;background:var(--paper);display:flex;align-items:center;justify-content:center;z-index:200;background-image:repeating-linear-gradient(0deg,transparent,transparent 27px,rgba(90,74,58,0.04) 28px);}
+.login-card{background:#fff;border:0.5px solid var(--border);border-radius:16px;padding:2.5rem 2rem;box-shadow:0 8px 40px rgba(42,31,20,0.12);text-align:center;max-width:320px;width:90%;}
+.login-title{font-family:'Shippori Mincho',serif;font-size:22px;font-weight:600;margin-bottom:4px;color:var(--ink);}
+.login-sub{font-size:11px;color:var(--ink3);letter-spacing:.1em;margin-bottom:2rem;}
+.login-desc{font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:2rem;}
+.btn-google{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:12px;border:1px solid var(--border);border-radius:10px;background:#fff;cursor:pointer;font-family:'Zen Kaku Gothic New',sans-serif;font-size:14px;color:var(--ink);transition:background .15s;box-shadow:0 1px 4px rgba(0,0,0,0.08);}
+.btn-google:hover{background:var(--paper2);}
+.btn-google img{width:20px;height:20px;}
+.login-note{font-size:10px;color:var(--ink3);margin-top:1rem;line-height:1.6;}
+
 .app{max-width:720px;margin:0 auto;padding:1rem 1rem 5rem;}
 .app-title{font-family:'Shippori Mincho',serif;font-size:21px;font-weight:600;letter-spacing:.05em;margin-bottom:2px;}
-.app-sub{font-size:11px;color:var(--ink3);letter-spacing:.1em;margin-bottom:1.2rem;display:flex;align-items:center;gap:8px;}
-.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--ink3);display:inline-block;}
+.app-sub{font-size:11px;color:var(--ink3);letter-spacing:.1em;margin-bottom:1.2rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--ink3);display:inline-block;flex-shrink:0;}
 .sync-dot.ok{background:var(--a2);}
-.sync-dot.err{background:var(--accent);}
-.tabs{display:flex;border-bottom:1.5px solid var(--border);margin-bottom:1.2rem;overflow-x:auto;gap:0;}
+.user-info{font-size:11px;color:var(--ink3);margin-left:auto;display:flex;align-items:center;gap:6px;}
+.btn-signout{font-size:10px;padding:2px 8px;border:0.5px solid var(--border);border-radius:4px;background:transparent;color:var(--ink3);cursor:pointer;}
+.tabs{display:flex;border-bottom:1.5px solid var(--border);margin-bottom:1.2rem;overflow-x:auto;}
 .tab{font-size:12px;padding:7px 13px;border:none;background:transparent;color:var(--ink3);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1.5px;transition:all .15s;white-space:nowrap;font-family:'Zen Kaku Gothic New',sans-serif;}
 .tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:500;}
-.tab:hover:not(.active){color:var(--ink2);}
 .view{display:none;}.view.active{display:block;}
 .card{background:#fff;border:0.5px solid var(--border);border-radius:12px;padding:1.1rem 1.3rem;box-shadow:var(--sh);margin-bottom:10px;}
 .card h3{font-family:'Shippori Mincho',serif;font-size:13px;color:var(--ink2);margin-bottom:.9rem;padding-bottom:5px;border-bottom:0.5px solid var(--border);}
@@ -36,7 +47,7 @@ body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--paper);color:
 .btn-s{background:transparent;color:var(--ink2);border:0.5px solid var(--border);border-radius:8px;padding:8px 14px;font-family:'Zen Kaku Gothic New',sans-serif;font-size:12px;cursor:pointer;transition:background .15s;}
 .btn-s:hover{background:var(--paper2);}
 .btn-xs{padding:4px 11px;font-size:11px;border-radius:6px;}
-.filter-bar{display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap;align-items:center;}
+.filter-bar{display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap;}
 .fb{font-size:11px;padding:4px 10px;border:0.5px solid var(--border);border-radius:20px;background:var(--paper2);color:var(--ink2);cursor:pointer;transition:all .15s;}
 .fb.on{background:var(--accent);color:#fff;border-color:var(--accent);}
 .gc{background:#fff;border:0.5px solid var(--border);border-radius:11px;padding:.85rem 1.1rem;margin-bottom:8px;box-shadow:var(--sh);cursor:pointer;transition:box-shadow .15s,transform .1s;display:flex;align-items:center;gap:11px;}
@@ -51,19 +62,17 @@ body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--paper);color:
 .ci{flex:1;min-width:0;}
 .cn{font-size:13px;font-weight:500;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .cm{font-size:11px;color:var(--ink3);margin-bottom:3px;}
-.tags{display:flex;gap:3px;flex-wrap:wrap;}
 .tag{font-size:10px;padding:2px 6px;border-radius:4px;font-weight:500;}
 .t-ok{background:#edf5ee;color:#27500A;}
 .t-ng{background:#fcebeb;color:#791F1F;}
 .t-blue{background:#E6F1FB;color:#0C447C;}
 .t-amber{background:#fef9ea;color:#633806;}
-.t-gray{background:var(--paper2);color:var(--ink3);}
 .rbar{margin-top:4px;}
 .rt{height:3px;background:var(--paper3);border-radius:2px;overflow:hidden;}
 .rf{height:100%;border-radius:2px;}
 .task-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border);}
 .task-item:last-child{border-bottom:none;}
-.task-check{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;font-size:12px;}
+.task-check{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;}
 .task-check.done{background:var(--a2);border-color:var(--a2);color:#fff;}
 .task-info{flex:1;min-width:0;}
 .task-name{font-size:13px;color:var(--ink);}
@@ -72,11 +81,10 @@ body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--paper);color:
 .sched-item{display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);align-items:flex-start;}
 .sched-item:last-child{border-bottom:none;}
 .sched-date{min-width:72px;flex-shrink:0;}
-.sched-day{font-family:'Shippori Mincho',serif;font-size:15px;font-weight:600;color:var(--ink);}
+.sched-day{font-family:'Shippori Mincho',serif;font-size:15px;font-weight:600;}
 .sched-dow{font-size:10px;color:var(--ink3);}
 .sched-info{flex:1;}
 .sched-name{font-size:13px;font-weight:500;margin-bottom:2px;}
-.sched-time{font-size:12px;color:var(--a2);}
 .sched-note{font-size:11px;color:var(--ink3);margin-top:2px;}
 .cal-btn{font-size:11px;padding:4px 9px;border:0.5px solid var(--border);border-radius:6px;background:transparent;color:var(--ink2);cursor:pointer;font-family:'Zen Kaku Gothic New',sans-serif;}
 .score-card{background:#fff;border:0.5px solid var(--border);border-radius:11px;padding:.85rem 1.1rem;margin-bottom:7px;box-shadow:var(--sh);display:flex;align-items:center;gap:11px;}
@@ -112,18 +120,38 @@ body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--paper);color:
 .ec{font-size:11px;color:var(--ink3);font-style:italic;flex:1;}
 .memo-box{font-size:12px;color:var(--ink2);line-height:1.7;background:#fff;border:0.5px solid var(--border);border-radius:8px;padding:10px;white-space:pre-wrap;}
 .loading{text-align:center;padding:3rem 1rem;color:var(--ink3);font-size:13px;}
-.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:13px;padding:10px 22px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:200;font-family:'Zen Kaku Gothic New',sans-serif;white-space:nowrap;}
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:13px;padding:10px 22px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:300;font-family:'Zen Kaku Gothic New',sans-serif;white-space:nowrap;}
 .toast.show{opacity:1;}
 .empty{text-align:center;padding:2.5rem 1rem;color:var(--ink3);font-size:13px;line-height:2.2;}
 </style>
 </head>
 <body>
-<div class="app">
+
+<!-- ログイン画面 -->
+<div class="login-screen" id="login-screen">
+  <div class="login-card">
+    <div class="login-title">保育園 見学ノート</div>
+    <div class="login-sub">南砂3丁目エリア ／ 2026年4月入園</div>
+    <div class="login-desc">夫婦で共有できる見学記録アプリです。<br>Googleアカウントでログインしてください。</div>
+    <button class="btn-google" onclick="signInWithGoogle()">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+      Googleでログイン
+    </button>
+    <div class="login-note">※ ログイン情報はFirebaseで安全に管理されます</div>
+  </div>
+</div>
+
+<!-- メインアプリ -->
+<div class="app" id="main-app" style="display:none">
   <div class="app-title">保育園 見学ノート</div>
   <div class="app-sub">
     南砂3丁目エリア ／ 2026年4月入園
     <span class="sync-dot" id="sync-dot"></span>
     <span id="sync-label" style="font-size:10px;color:var(--ink3)">接続中...</span>
+    <span class="user-info">
+      <span id="user-name"></span>
+      <button class="btn-signout" onclick="signOut()">ログアウト</button>
+    </span>
   </div>
   <div class="tabs">
     <button class="tab active" onclick="sw('list')">一覧</button>
@@ -150,12 +178,14 @@ body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--paper);color:
     <div style="display:flex;gap:8px"><button class="btn-p" onclick="saveRec()">保存する</button><button class="btn-s" onclick="clearF()">クリア</button></div>
   </div>
 </div>
+
 <div class="toast" id="toast"></div>
 <div id="ov"></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
 import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut as fbSignOut } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAisiNitiCFKIndfvnFVAe7DSMWA4MY2Xg",
@@ -169,6 +199,8 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
 const GM=[
   {id:1,name:"南砂あら川保育園",addr:"東京都江東区南砂2-2-11",dist:1081,walk:14,hours:"7:30〜20:30",url:"https://www.arakawa.ed.jp/guide/minamisuna/",cap0:2,app0:22,r0:11,ra:1.7,age:"○",wb:"○",cs:"未",vd:"",note:"空き枠なし"},
@@ -195,100 +227,95 @@ const GROUPS=[
   {label:'保育方針',color:'#d4a853',items:[{key:'food',label:'給食・食育'},{key:'event',label:'行事の内容'},{key:'info',label:'情報公開・説明'}]},
 ];
 const ALL=[...GROUPS[0].items,...GROUPS[1].items,...GROUPS[2].items];
-
 const MASTER_SCHEDS=[
-  {gid:6,date:'2026-04-14',time:'10:00'},
-  {gid:10,date:'2026-04-14',time:'15:00'},
-  {gid:2,date:'2026-04-28',time:'14:00'},
-  {gid:16,date:'2026-04-28',time:'15:30'},
+  {gid:6,date:'2026-04-14',time:'10:00'},{gid:10,date:'2026-04-14',time:'15:00'},
+  {gid:2,date:'2026-04-28',time:'14:00'},{gid:16,date:'2026-04-28',time:'15:30'},
   {gid:12,date:'2026-05-08',time:'10:00'},
 ];
 
-// Firebase state
-let recs={};
-let scheds={};
-let taskDone={};
+let recs={},scheds={},taskDone={};
 let _sc={},_na={},_cm={},editId=null,filt='all';
 let dbReady=false;
 
-// ── Firebase listeners ──────────────────────
-const recsRef=ref(db,'records');
-const schedsRef=ref(db,'schedules');
-const tasksRef=ref(db,'tasks');
+// ── Auth ────────────────────────────────────
+window.signInWithGoogle=async function(){
+  try{ await signInWithPopup(auth,provider); }
+  catch(e){ showToast('ログインに失敗しました'); }
+};
+window.signOut=async function(){
+  if(!confirm('ログアウトしますか？'))return;
+  await fbSignOut(auth);
+};
 
-onValue(recsRef,(snap)=>{
-  recs=snap.val()||{};
-  if(document.getElementById('view-list').classList.contains('active'))renderList();
-  if(document.getElementById('view-aim').classList.contains('active'))renderAim();
-  if(document.getElementById('view-tasks').classList.contains('active'))renderTasks();
-  setSyncOk();
-});
-onValue(schedsRef,(snap)=>{
-  const val=snap.val();
-  if(!val){
-    // 初回：マスターデータを書き込む
-    const init={};
-    MASTER_SCHEDS.forEach(s=>{init['g'+s.gid]=s;});
-    set(schedsRef,init);
+onAuthStateChanged(auth,(user)=>{
+  if(user){
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('main-app').style.display='block';
+    document.getElementById('user-name').textContent=user.displayName||user.email;
+    initDB();
   } else {
-    scheds=val;
+    document.getElementById('login-screen').style.display='flex';
+    document.getElementById('main-app').style.display='none';
   }
-  if(document.getElementById('view-schedule').classList.contains('active'))renderSchedule();
-  if(document.getElementById('view-tasks').classList.contains('active'))renderTasks();
-  setSyncOk();
-  dbReady=true;
-  if(document.getElementById('view-list').classList.contains('active'))renderList();
-});
-onValue(tasksRef,(snap)=>{
-  taskDone=snap.val()||{};
-  if(document.getElementById('view-tasks').classList.contains('active'))renderTasks();
 });
 
-function setSyncOk(){
-  document.getElementById('sync-dot').className='sync-dot ok';
-  document.getElementById('sync-label').textContent='同期中';
+function initDB(){
+  const recsRef=ref(db,'records');
+  const schedsRef=ref(db,'schedules');
+  const tasksRef=ref(db,'tasks');
+  onValue(recsRef,(snap)=>{
+    recs=snap.val()||{};
+    if(document.getElementById('view-list').classList.contains('active'))renderList();
+    if(document.getElementById('view-aim').classList.contains('active'))renderAim();
+    if(document.getElementById('view-tasks').classList.contains('active'))renderTasks();
+    setSyncOk();
+  });
+  onValue(schedsRef,(snap)=>{
+    const val=snap.val();
+    if(!val){const init={};MASTER_SCHEDS.forEach(s=>{init['g'+s.gid]=s;});set(schedsRef,init);}
+    else{scheds=val;}
+    if(document.getElementById('view-schedule').classList.contains('active'))renderSchedule();
+    if(document.getElementById('view-tasks').classList.contains('active'))renderTasks();
+    setSyncOk();dbReady=true;
+    if(document.getElementById('view-list').classList.contains('active'))renderList();
+  });
+  onValue(tasksRef,(snap)=>{
+    taskDone=snap.val()||{};
+    if(document.getElementById('view-tasks').classList.contains('active'))renderTasks();
+  });
 }
-function setSyncErr(){
-  document.getElementById('sync-dot').className='sync-dot err';
-  document.getElementById('sync-label').textContent='オフライン';
-}
+
+function setSyncOk(){document.getElementById('sync-dot').className='sync-dot ok';document.getElementById('sync-label').textContent='同期中';}
 
 function getRec(gid){return Object.values(recs).find(r=>r.gid===gid);}
 function getSched(gid){return scheds['g'+gid]||null;}
 function totalScore(r){if(!r)return null;const v=ALL.map(c=>r.na?.[c.key]?null:(r.scores?.[c.key]||0)).filter(x=>x!==null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length*10)/10:null;}
 function rnk(s){return s>=4.5?'S':s>=3.5?'A':s>=2.5?'B':'C';}
 
-// ── SW ──────────────────────────────────────
 window.sw=function(tab){
   ['list','tasks','schedule','aim','add'].forEach((t,i)=>{
     document.querySelectorAll('.tab')[i].classList.toggle('active',t===tab);
     document.getElementById('view-'+t).classList.toggle('active',t===tab);
   });
-  if(tab==='list')renderList();
-  if(tab==='tasks')renderTasks();
-  if(tab==='schedule')renderSchedule();
-  if(tab==='aim')renderAim();
-  if(tab==='add')buildAdd();
+  if(tab==='list')renderList();if(tab==='tasks')renderTasks();
+  if(tab==='schedule')renderSchedule();if(tab==='aim')renderAim();if(tab==='add')buildAdd();
 };
 
-// ── LIST ────────────────────────────────────
 function renderList(){
   const el=document.getElementById('view-list');
   if(!dbReady){el.innerHTML='<div class="loading">読み込み中...</div>';return;}
   let gs=filt==='visited'?GM.filter(g=>getRec(g.id)):filt==='unvisited'?GM.filter(g=>!getRec(g.id)):GM;
-  const visitedSorted=[...GM.filter(g=>getRec(g.id))].sort((a,b)=>(totalScore(getRec(b.id))||0)-(totalScore(getRec(a.id))||0));
+  const vs=[...GM.filter(g=>getRec(g.id))].sort((a,b)=>(totalScore(getRec(b.id))||0)-(totalScore(getRec(a.id))||0));
   el.innerHTML=`<div class="filter-bar">
     <button class="fb ${filt==='all'?'on':''}" onclick="setF('all')">すべて</button>
     <button class="fb ${filt==='visited'?'on':''}" onclick="setF('visited')">見学済（${GM.filter(g=>getRec(g.id)).length}/${GM.length}）</button>
     <button class="fb ${filt==='unvisited'?'on':''}" onclick="setF('unvisited')">未見学</button>
-  </div>`+gs.map((g)=>{
+  </div>`+gs.map(g=>{
     const rec=getRec(g.id);const ts=totalScore(rec);const rl=ts!==null?rnk(ts):null;
-    const scCls=rl?'sc-'+rl.toLowerCase():'sc-none';
-    const ri=visitedSorted.findIndex(x=>x.id===g.id);
-    const sched=getSched(g.id);
-    const rcolor=g.r0>=5?'#c0624a':g.r0>=2?'#d4a853':'#7a9e7e';
+    const ri=vs.findIndex(x=>x.id===g.id);const sched=getSched(g.id);
+    const rc=g.r0>=5?'#c0624a':g.r0>=2?'#d4a853':'#7a9e7e';
     return `<div class="gc ${!rec?'dim':''}" onclick="showDetail(${g.id})">
-      <div class="sc ${scCls}">${rl||'—'}</div>
+      <div class="sc ${rl?'sc-'+rl.toLowerCase():'sc-none'}">${rl||'—'}</div>
       <div class="ci">
         <div style="display:flex;align-items:center;gap:5px;margin-bottom:2px;flex-wrap:wrap">
           <div class="cn">${g.name}</div>
@@ -298,7 +325,7 @@ function renderList(){
           ${g.cs==='未'&&!sched?'<span class="tag t-amber">要予約</span>':''}
         </div>
         <div class="cm">${g.dist===0?'すぐ隣':g.dist+'m（'+g.walk+'分）'}　0歳定員${g.cap0}名　${ts!==null?'評価 '+ts+'/5':'未見学'}</div>
-        <div class="rbar"><div class="rt"><div class="rf" style="width:${Math.min((g.r0||0)/15*100,100)}%;background:${rcolor}"></div></div></div>
+        <div class="rbar"><div class="rt"><div class="rf" style="width:${Math.min((g.r0||0)/15*100,100)}%;background:${rc}"></div></div></div>
         <div style="font-size:10px;color:var(--ink3);margin-top:1px">0歳倍率：${g.r0||'—'}倍</div>
       </div>
     </div>`;
@@ -306,87 +333,60 @@ function renderList(){
 }
 window.setF=function(f){filt=f;renderList();};
 
-// ── TASKS ───────────────────────────────────
 function renderTasks(){
   const el=document.getElementById('view-tasks');
-  const needContact=GM.filter(g=>g.age!=='×'&&g.cs==='未'&&!getSched(g.id));
-  const needReply=GM.filter(g=>g.cs==='済'&&g.vd&&(g.vd.includes('待')||g.vd.includes('フォーム')));
-  const notVisited=GM.filter(g=>g.age!=='×'&&getSched(g.id)&&!getRec(g.id));
-  const allTasks=[...needContact.map(g=>'c'+g.id),...needReply.map(g=>'r'+g.id),...notVisited.map(g=>'v'+g.id)];
-  const doneCount=allTasks.filter(k=>taskDone[k]).length;
-  const total=allTasks.length;
-
-  el.innerHTML=`
-  <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+  const nc=GM.filter(g=>g.age!=='×'&&g.cs==='未'&&!getSched(g.id));
+  const nr=GM.filter(g=>g.cs==='済'&&g.vd&&(g.vd.includes('待')||g.vd.includes('フォーム')));
+  const nv=GM.filter(g=>g.age!=='×'&&getSched(g.id)&&!getRec(g.id));
+  const all=[...nc.map(g=>'c'+g.id),...nr.map(g=>'r'+g.id),...nv.map(g=>'v'+g.id)];
+  const done=all.filter(k=>taskDone[k]).length;
+  el.innerHTML=`<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
     <div style="font-size:13px;color:var(--ink2)">残タスク</div>
-    <div style="flex:1;height:6px;background:var(--paper3);border-radius:3px;overflow:hidden"><div style="height:100%;background:var(--a2);border-radius:3px;width:${total?Math.round(doneCount/total*100):0}%"></div></div>
-    <div style="font-size:12px;color:var(--ink3)">${doneCount}/${total}</div>
+    <div style="flex:1;height:6px;background:var(--paper3);border-radius:3px;overflow:hidden"><div style="height:100%;background:var(--a2);border-radius:3px;width:${all.length?Math.round(done/all.length*100):0}%"></div></div>
+    <div style="font-size:12px;color:var(--ink3)">${done}/${all.length}</div>
   </div>
-  <div class="card"><h3>📞 見学申し込みが必要（${needContact.length}園）</h3>
-    ${needContact.length?needContact.map(g=>`<div class="task-item">
+  <div class="card"><h3>📞 見学申し込みが必要（${nc.length}園）</h3>
+    ${nc.length?nc.map(g=>`<div class="task-item">
       <div class="task-check ${taskDone['c'+g.id]?'done':''}" onclick="toggleTask('c${g.id}')">${taskDone['c'+g.id]?'✓':''}</div>
-      <div class="task-info">
-        <div class="task-name ${taskDone['c'+g.id]?'done':''}">${g.name}</div>
-        <div class="task-detail">${g.dist===0?'すぐ隣':g.dist+'m'}　Web：${g.wb==='○'?'予約可':'電話のみ'}　${g.note||''}</div>
-      </div>
+      <div class="task-info"><div class="task-name ${taskDone['c'+g.id]?'done':''}">${g.name}</div>
+      <div class="task-detail">${g.dist}m　Web：${g.wb==='○'?'予約可':'電話のみ'}　${g.note||''}</div></div>
       <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">
         <button class="btn-s btn-xs" onclick="event.stopPropagation();openSched(${g.id})">日程を入れる</button>
         <a href="${g.url}" target="_blank" style="font-size:10px;color:var(--accent);text-decoration:none">公式↗</a>
-      </div>
-    </div>`).join(''):`<div style="font-size:13px;color:var(--a2);padding:8px 0">すべて連絡済みです ✓</div>`}
+      </div></div>`).join(''):`<div style="font-size:13px;color:var(--a2);padding:8px 0">すべて連絡済みです ✓</div>`}
   </div>
-  <div class="card"><h3>⏳ 返信待ち（${needReply.length}園）</h3>
-    ${needReply.length?needReply.map(g=>`<div class="task-item">
+  <div class="card"><h3>⏳ 返信待ち（${nr.length}園）</h3>
+    ${nr.length?nr.map(g=>`<div class="task-item">
       <div class="task-check ${taskDone['r'+g.id]?'done':''}" onclick="toggleTask('r${g.id}')">${taskDone['r'+g.id]?'✓':''}</div>
-      <div class="task-info">
-        <div class="task-name ${taskDone['r'+g.id]?'done':''}">${g.name}</div>
-        <div class="task-detail">${g.vd}</div>
-      </div>
+      <div class="task-info"><div class="task-name ${taskDone['r'+g.id]?'done':''}">${g.name}</div>
+      <div class="task-detail">${g.vd}</div></div>
       <button class="btn-s btn-xs" onclick="event.stopPropagation();openSched(${g.id})">日程を入れる</button>
     </div>`).join(''):`<div style="font-size:13px;color:var(--a2);padding:8px 0">返信待ちはありません ✓</div>`}
   </div>
-  <div class="card"><h3>📋 見学予定あり・記録未入力（${notVisited.length}園）</h3>
-    ${notVisited.length?notVisited.map(g=>{const s=getSched(g.id);return `<div class="task-item">
+  <div class="card"><h3>📋 見学予定あり・記録未入力（${nv.length}園）</h3>
+    ${nv.length?nv.map(g=>{const s=getSched(g.id);return `<div class="task-item">
       <div class="task-check ${taskDone['v'+g.id]?'done':''}" onclick="toggleTask('v${g.id}')">${taskDone['v'+g.id]?'✓':''}</div>
-      <div class="task-info">
-        <div class="task-name ${taskDone['v'+g.id]?'done':''}">${g.name}</div>
-        <div class="task-detail">${s?s.date.slice(5).replace('-','/')+' '+s.time:'日程未定'}</div>
-      </div>
+      <div class="task-info"><div class="task-name ${taskDone['v'+g.id]?'done':''}">${g.name}</div>
+      <div class="task-detail">${s?s.date.slice(5).replace('-','/')+' '+s.time:'日程未定'}</div></div>
       <button class="btn-s btn-xs" onclick="event.stopPropagation();startAdd(${g.id})">記録を入力</button>
     </div>`;}).join(''):`<div style="font-size:13px;color:var(--a2);padding:8px 0">記録待ちはありません ✓</div>`}
   </div>`;
 }
-window.toggleTask=function(k){
-  const newVal=!taskDone[k];
-  set(ref(db,'tasks/'+k),newVal);
-};
+window.toggleTask=function(k){set(ref(db,'tasks/'+k),!taskDone[k]);};
 
-// ── SCHEDULE ────────────────────────────────
 function renderSchedule(){
   const el=document.getElementById('view-schedule');
   const list=Object.values(scheds).sort((a,b)=>a.date+a.time>b.date+b.time?1:-1);
   const today=new Date().toISOString().slice(0,10);
-  const upcoming=list.filter(s=>s.date>=today);
-  const past=list.filter(s=>s.date<today);
   const dows=['日','月','火','水','木','金','土'];
-
-  function schedHtml(items,label){
+  function sh(items,label){
     if(!items.length)return '';
-    return `<div class="card"><h3>${label}（${items.length}件）</h3>`+
-    items.map(s=>{
-      const g=GM.find(x=>x.id===s.gid);
-      const rec=getRec(s.gid);
+    return `<div class="card"><h3>${label}（${items.length}件）</h3>`+items.map(s=>{
+      const g=GM.find(x=>x.id===s.gid);const rec=getRec(s.gid);
       const d=new Date(s.date+'T00:00:00');
-      const dow=dows[d.getDay()];
       return `<div class="sched-item">
-        <div class="sched-date">
-          <div class="sched-day">${s.date.slice(5).replace('-','/')}</div>
-          <div class="sched-dow">${dow}曜　${s.time}</div>
-        </div>
-        <div class="sched-info">
-          <div class="sched-name">${g?g.name:'不明'}</div>
-          ${rec?`<div class="sched-note" style="color:var(--a2)">✓ 見学記録あり</div>`:''}
-        </div>
+        <div class="sched-date"><div class="sched-day">${s.date.slice(5).replace('-','/')}</div><div class="sched-dow">${dows[d.getDay()]}曜　${s.time}</div></div>
+        <div class="sched-info"><div class="sched-name">${g?g.name:'不明'}</div>${rec?`<div class="sched-note" style="color:var(--a2)">✓ 見学記録あり</div>`:''}</div>
         <div style="display:flex;gap:4px;align-items:center;flex-shrink:0">
           <button class="cal-btn" onclick="exportICS(${s.gid})">📅</button>
           <button class="btn-s btn-xs" onclick="editSched(${s.gid})">編集</button>
@@ -395,34 +395,26 @@ function renderSchedule(){
       </div>`;
     }).join('')+'</div>';
   }
-
   el.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
     <div style="font-size:12px;color:var(--ink3)">${list.length}件登録</div>
     <button class="btn-p btn-xs" onclick="openSched(null)">＋ 日程を追加</button>
-  </div>
-  ${!list.length?`<div class="empty">まだ日程が登録されていません</div>`:''}
-  ${schedHtml(upcoming,'今後の見学')}
-  ${schedHtml(past,'過去の見学')}`;
+  </div>${sh(list.filter(s=>s.date>=today),'今後の見学')}${sh(list.filter(s=>s.date<today),'過去の見学')}`;
 }
 
 window.exportICS=function(gid){
   const s=getSched(gid);const g=GM.find(x=>x.id===gid);if(!s||!g)return;
-  const dt=s.date.replace(/-/g,'');
-  const [hh,mm]=s.time.split(':');
+  const dt=s.date.replace(/-/g,'');const[hh,mm]=s.time.split(':');
   const end=new Date(s.date+'T'+s.time);end.setHours(end.getHours()+1);
-  const endDT=s.date.replace(/-/g,'')+'T'+(end.getHours()<10?'0':'')+end.getHours()+mm+'00';
-  const ics=`BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//保育園見学ノート//\nBEGIN:VEVENT\nDTSTART;TZID=Asia/Tokyo:${dt}T${hh}${mm}00\nDTEND;TZID=Asia/Tokyo:${endDT}\nSUMMARY:【見学】${g.name}\nDESCRIPTION:${g.addr}\\n${g.hours}\\n${g.url}\nLOCATION:${g.addr}\nEND:VEVENT\nEND:VCALENDAR`;
-  const a=document.createElement('a');
-  a.href='data:text/calendar;charset=utf-8,'+encodeURIComponent(ics);
-  a.download=`見学_${g.name}.ics`;a.click();
+  const eh=(end.getHours()<10?'0':'')+end.getHours();
+  const ics=`BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//保育園見学ノート//\nBEGIN:VEVENT\nDTSTART;TZID=Asia/Tokyo:${dt}T${hh}${mm}00\nDTEND;TZID=Asia/Tokyo:${dt}T${eh}${mm}00\nSUMMARY:【見学】${g.name}\nDESCRIPTION:${g.addr}\\n${g.hours}\\n${g.url}\nLOCATION:${g.addr}\nEND:VEVENT\nEND:VCALENDAR`;
+  const a=document.createElement('a');a.href='data:text/calendar;charset=utf-8,'+encodeURIComponent(ics);a.download=`見学_${g.name}.ics`;a.click();
   showToast('カレンダーファイルを書き出しました');
 };
 
 window.openSched=function(gid){
   const s=gid?getSched(gid):null;
   document.getElementById('ov').innerHTML=`<div class="overlay" onclick="closeOv(event)">
-    <div class="sheet" style="max-height:70vh">
-      <h2>見学日程を登録</h2>
+    <div class="sheet" style="max-height:70vh"><h2>見学日程を登録</h2>
       <div class="field"><label>保育園</label><select id="ov-g" style="width:100%;padding:7px 10px;border:0.5px solid var(--border);border-radius:8px;font-family:'Zen Kaku Gothic New',sans-serif;font-size:13px;background:var(--paper);outline:none;color:var(--ink);">
         ${GM.map(x=>`<option value="${x.id}" ${gid===x.id?'selected':''}>${x.name}</option>`).join('')}
       </select></div>
@@ -446,30 +438,23 @@ window.saveSched=function(){
   set(ref(db,'schedules/g'+gid),{gid,date,time:time||'00:00'});
   closeOvDirect();showToast('日程を保存しました');
 };
-window.delSched=function(gid){
-  if(!confirm('この日程を削除しますか？'))return;
-  remove(ref(db,'schedules/g'+gid));showToast('削除しました');
-};
+window.delSched=function(gid){if(!confirm('削除しますか？'))return;remove(ref(db,'schedules/g'+gid));showToast('削除しました');};
 
-// ── AIM ─────────────────────────────────────
 function aimScore(g){
-  let rs=0;
-  if(g.r0!==null){if(g.r0<=1)rs=40;else if(g.r0<=2)rs=35;else if(g.r0<=3)rs=28;else if(g.r0<=5)rs=18;else if(g.r0<=8)rs=8;else rs=2;}
+  let rs=0;if(g.r0!==null){if(g.r0<=1)rs=40;else if(g.r0<=2)rs=35;else if(g.r0<=3)rs=28;else if(g.r0<=5)rs=18;else if(g.r0<=8)rs=8;else rs=2;}
   const ds=g.dist<=200?30:g.dist<=500?24:g.dist<=800?18:g.dist<=1000?10:5;
-  const rec=getRec(g.id);const ts=totalScore(rec);
-  const es=ts!==null?Math.round(ts/5*30):0;
-  return {total:rs+ds+es,rs,ds,es,hasEval:ts!==null};
+  const ts=totalScore(getRec(g.id));const es=ts!==null?Math.round(ts/5*30):0;
+  return{total:rs+ds+es,rs,ds,es,hasEval:ts!==null};
 }
 function renderAim(){
   const el=document.getElementById('view-aim');
-  const eligible=GM.filter(g=>g.age!=='×');
-  const scored=eligible.map(g=>({g,aim:aimScore(g)})).sort((a,b)=>b.aim.total-a.aim.total);
+  const scored=GM.filter(g=>g.age!=='×').map(g=>({g,aim:aimScore(g)})).sort((a,b)=>b.aim.total-a.aim.total);
   el.innerHTML=`<div style="font-size:12px;color:var(--ink3);margin-bottom:12px;line-height:1.7">倍率（40点）＋距離（30点）＋見学評価（30点）の合計。見学前は評価0点。</div>`+
   scored.map(({g,aim},i)=>{
-    const color=i===0?'#fdf0e8':i===1?'var(--paper2)':i===2?'#edf5ee':'var(--paper2)';
+    const bg=i===0?'#fdf0e8':i===1?'var(--paper2)':i===2?'#edf5ee':'var(--paper2)';
     const tc=i===0?'var(--accent)':i===1?'var(--ink2)':i===2?'var(--a2)':'var(--ink3)';
     return `<div class="score-card">
-      <div class="aim-score" style="background:${color};color:${tc}">${i+1}</div>
+      <div class="aim-score" style="background:${bg};color:${tc}">${i+1}</div>
       <div class="aim-bar-wrap">
         <div style="display:flex;justify-content:space-between;align-items:baseline">
           <div class="aim-name">${g.name}</div>
@@ -482,7 +467,6 @@ function renderAim(){
   }).join('');
 }
 
-// ── ADD FORM ────────────────────────────────
 function buildAdd(){
   const sel=document.getElementById('f-g');
   if(sel.options.length<=1){GM.forEach(g=>{const o=document.createElement('option');o.value=g.id;o.textContent=g.name;sel.appendChild(o);});}
@@ -490,8 +474,7 @@ function buildAdd(){
 }
 window.startAdd=function(gid){sw('add');setTimeout(()=>{document.getElementById('f-g').value=gid;onPickG();},50);};
 window.onPickG=function(){
-  const gid=parseInt(document.getElementById('f-g').value);
-  const g=GM.find(x=>x.id===gid);
+  const gid=parseInt(document.getElementById('f-g').value);const g=GM.find(x=>x.id===gid);
   const prev=document.getElementById('g-preview');
   if(!g){prev.style.display='none';return;}
   prev.style.display='block';
@@ -506,8 +489,7 @@ function buildEvalForm(){
   const el=document.getElementById('eval-form');if(!el)return;
   el.innerHTML=GROUPS.map(gr=>`<div class="eval-group">
     <div class="eg-title" style="border-left-color:${gr.color};color:${gr.color}">${gr.label}</div>
-    ${gr.items.map(c=>`<div class="sr">
-      <div class="sl">${c.label}</div>
+    ${gr.items.map(c=>`<div class="sr"><div class="sl">${c.label}</div>
       <div class="sc-ctrl">
         <div class="stars" id="st-${c.key}">${[1,2,3,4,5].map(n=>`<div class="star ${n<=(_sc[c.key]||3)?'on':''}" onclick="setStar('${c.key}',${n})">★</div>`).join('')}</div>
         <button class="na-btn ${_na[c.key]?'on':''}" onclick="toggleNA('${c.key}')">N/A</button>
@@ -529,10 +511,8 @@ window.saveRec=function(){
 };
 window.clearF=function(){document.getElementById('f-g').value='';document.getElementById('f-date').value='';document.getElementById('f-time').value='';document.getElementById('f-memo').value='';document.getElementById('g-preview').style.display='none';editId=null;_sc={};_na={};_cm={};buildEvalForm();};
 
-// ── DETAIL ──────────────────────────────────
 window.showDetail=function(gid){
-  const g=GM.find(x=>x.id===gid);const rec=getRec(gid);const sched=getSched(gid);
-  const ts=totalScore(rec);
+  const g=GM.find(x=>x.id===gid);const rec=getRec(gid);const sched=getSched(gid);const ts=totalScore(rec);
   const evalHtml=rec?GROUPS.map(gr=>`<div style="margin-bottom:9px">
     <div class="dst" style="border-left-color:${gr.color};color:${gr.color}">${gr.label}</div>
     ${gr.items.map(c=>{const na=rec.na?.[c.key];return `<div class="er"><div class="el">${c.label}</div>
@@ -540,43 +520,36 @@ window.showDetail=function(gid){
       ${rec.comments?.[c.key]?`<div class="ec">${rec.comments[c.key]}</div>`:''}</div>`;}).join('')}
   </div>`).join(''):'<div style="font-size:12px;color:var(--ink3);padding:6px 0">まだ見学記録がありません</div>';
   document.getElementById('ov').innerHTML=`<div class="overlay" onclick="closeOv(event)">
-    <div class="sheet">
-      <div style="display:flex;gap:8px;margin-bottom:.6rem">
-        <div style="flex:1"><h2>${g.name}</h2><div style="font-size:11px;color:var(--ink3)">${g.addr}</div></div>
-        ${g.age==='×'?'<span class="tag t-ng" style="flex-shrink:0">年齢条件×</span>':''}
-      </div>
-      <div class="ig">
-        <div class="ii"><div class="il">距離</div><div class="iv">${g.dist===0?'すぐ隣':g.dist+'m（'+g.walk+'分）'}</div></div>
-        <div class="ii"><div class="il">開所時間</div><div class="iv">${g.hours}</div></div>
-        <div class="ii"><div class="il">0歳定員・倍率</div><div class="iv">${g.cap0}名・${g.r0||'—'}倍</div></div>
-        <div class="ii"><div class="il">見学予定</div><div class="iv">${sched?sched.date.slice(5).replace('-','/')+' '+sched.time:'—'}</div></div>
-      </div>
-      ${g.note?`<div style="font-size:11px;color:var(--ink3);background:var(--paper2);border-radius:7px;padding:7px 10px;margin-bottom:9px">${g.note}</div>`:''}
-      <a href="${g.url}" target="_blank" style="font-size:11px;color:var(--accent);text-decoration:none">🔗 公式サイト↗</a>
-      <div style="margin-top:10px">${evalHtml}</div>
-      ${rec?.memo?`<div class="dst" style="border-left-color:var(--ink3);color:var(--ink3)">総合メモ</div><div class="memo-box">${rec.memo}</div>`:''}
-      ${ts!==null?`<div style="font-size:12px;color:var(--ink2);margin-top:8px">総合スコア：<b>${ts}/5.0</b>（${rnk(ts)}ランク）</div>`:''}
-      <div style="display:flex;gap:7px;margin-top:1rem;flex-wrap:wrap">
-        <button class="btn-p btn-xs" onclick="startAdd(${gid});closeOvDirect()">見学記録を${rec?'編集':'追加'}</button>
-        <button class="btn-s btn-xs" onclick="openSched(${gid});closeOvDirect()">日程を${sched?'編集':'登録'}</button>
-        ${sched?`<button class="btn-s btn-xs" onclick="exportICS(${gid})">📅 カレンダー出力</button>`:''}
-        ${rec?`<button class="btn-s btn-xs" style="color:#c0624a" onclick="delRec(${rec.id})">記録削除</button>`:''}
-        <button class="btn-s btn-xs" onclick="closeOvDirect()">閉じる</button>
-      </div>
+    <div class="sheet"><div style="display:flex;gap:8px;margin-bottom:.6rem">
+      <div style="flex:1"><h2>${g.name}</h2><div style="font-size:11px;color:var(--ink3)">${g.addr}</div></div>
+      ${g.age==='×'?'<span class="tag t-ng" style="flex-shrink:0">年齢条件×</span>':''}
     </div>
-  </div>`;
+    <div class="ig">
+      <div class="ii"><div class="il">距離</div><div class="iv">${g.dist===0?'すぐ隣':g.dist+'m（'+g.walk+'分）'}</div></div>
+      <div class="ii"><div class="il">開所時間</div><div class="iv">${g.hours}</div></div>
+      <div class="ii"><div class="il">0歳定員・倍率</div><div class="iv">${g.cap0}名・${g.r0||'—'}倍</div></div>
+      <div class="ii"><div class="il">見学予定</div><div class="iv">${sched?sched.date.slice(5).replace('-','/')+' '+sched.time:'—'}</div></div>
+    </div>
+    ${g.note?`<div style="font-size:11px;color:var(--ink3);background:var(--paper2);border-radius:7px;padding:7px 10px;margin-bottom:9px">${g.note}</div>`:''}
+    <a href="${g.url}" target="_blank" style="font-size:11px;color:var(--accent);text-decoration:none">🔗 公式サイト↗</a>
+    <div style="margin-top:10px">${evalHtml}</div>
+    ${rec?.memo?`<div class="dst" style="border-left-color:var(--ink3);color:var(--ink3)">総合メモ</div><div class="memo-box">${rec.memo}</div>`:''}
+    ${ts!==null?`<div style="font-size:12px;color:var(--ink2);margin-top:8px">総合スコア：<b>${ts}/5.0</b>（${rnk(ts)}ランク）</div>`:''}
+    <div style="display:flex;gap:7px;margin-top:1rem;flex-wrap:wrap">
+      <button class="btn-p btn-xs" onclick="startAdd(${gid});closeOvDirect()">見学記録を${rec?'編集':'追加'}</button>
+      <button class="btn-s btn-xs" onclick="openSched(${gid});closeOvDirect()">日程を${sched?'編集':'登録'}</button>
+      ${sched?`<button class="btn-s btn-xs" onclick="exportICS(${gid})">📅 カレンダー出力</button>`:''}
+      ${rec?`<button class="btn-s btn-xs" style="color:#c0624a" onclick="delRec(${rec.id})">記録削除</button>`:''}
+      <button class="btn-s btn-xs" onclick="closeOvDirect()">閉じる</button>
+    </div>
+  </div></div>`;
 };
 window.closeOv=function(e){if(e.target.classList.contains('overlay'))closeOvDirect();};
 window.closeOvDirect=function(){document.getElementById('ov').innerHTML='';};
-window.delRec=function(id){
-  if(!confirm('記録を削除しますか？'))return;
-  remove(ref(db,'records/r'+id));closeOvDirect();showToast('削除しました');
-};
+window.delRec=function(id){if(!confirm('記録を削除しますか？'))return;remove(ref(db,'records/r'+id));closeOvDirect();showToast('削除しました');};
 
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
 window.showToast=showToast;
-
-sw('list');
 </script>
 </body>
 </html>
