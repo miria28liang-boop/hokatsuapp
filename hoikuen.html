@@ -441,15 +441,15 @@ window.saveSched=function(){
 window.delSched=function(gid){if(!confirm('削除しますか？'))return;remove(ref(db,'schedules/g'+gid));showToast('削除しました');};
 
 function aimScore(g){
-  let rs=0;if(g.r0!==null){if(g.r0<=1)rs=40;else if(g.r0<=2)rs=35;else if(g.r0<=3)rs=28;else if(g.r0<=5)rs=18;else if(g.r0<=8)rs=8;else rs=2;}
+  let rs=0;if(g.r0!==null){if(g.r0<=1)rs=20;else if(g.r0<=2)rs=18;else if(g.r0<=3)rs=14;else if(g.r0<=5)rs=9;else if(g.r0<=8)rs=4;else rs=1;}
   const ds=g.dist<=200?30:g.dist<=500?24:g.dist<=800?18:g.dist<=1000?10:5;
-  const ts=totalScore(getRec(g.id));const es=ts!==null?Math.round(ts/5*30):0;
+  const ts=totalScore(getRec(g.id));const es=ts!==null?Math.round(ts/5*50):0;
   return{total:rs+ds+es,rs,ds,es,hasEval:ts!==null};
 }
 function renderAim(){
   const el=document.getElementById('view-aim');
   const scored=GM.filter(g=>g.age!=='×').map(g=>({g,aim:aimScore(g)})).sort((a,b)=>b.aim.total-a.aim.total);
-  el.innerHTML=`<div style="font-size:12px;color:var(--ink3);margin-bottom:12px;line-height:1.7">倍率（40点）＋距離（30点）＋見学評価（30点）の合計。見学前は評価0点。</div>`+
+  el.innerHTML=`<div style="font-size:12px;color:var(--ink3);margin-bottom:12px;line-height:1.7">倍率（20点）＋距離（30点）＋見学評価（50点）の合計。見学前は評価0点。</div>`+
   scored.map(({g,aim},i)=>{
     const bg=i===0?'#fdf0e8':i===1?'var(--paper2)':i===2?'#edf5ee':'var(--paper2)';
     const tc=i===0?'var(--accent)':i===1?'var(--ink2)':i===2?'var(--a2)':'var(--ink3)';
